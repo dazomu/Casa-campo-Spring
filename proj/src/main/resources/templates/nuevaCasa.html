@@ -9,7 +9,7 @@
 
 <div class="container mt-5">
     <h2>Agregar Nueva Casa</h2>
-    <form th:action="@{/casas/nueva_casa}" th:object="${casa}" method="post" enctype="multipart/form-data">
+    <form th:action="@{/casas/nueva_casa}" th:object="${casa}" method="post">
         <div class="mb-3">
             <label for="nombre" class="form-label">Nombre</label>
             <input type="text" id="nombre" th:field="*{nombre}" class="form-control" placeholder="Nombre de la casa" required />
@@ -36,12 +36,12 @@
         </div>
 
         <div class="mb-3">
-            <label for="imagenFile" class="form-label">Imagen</label>
-            <input type="file" id="imagenFile" name="imagenFile" class="form-control" />
+            <label for="imagen" class="form-label">Imagen (URL)</label>
+            <input type="text" id="imagen" th:field="*{imagen}" class="form-control" placeholder="URL de la imagen" />
         </div>
 
         <button type="submit" class="btn btn-success">Agregar Casa</button>
-        <a href="/casas/lista" class="btn btn-secondary">Cancelar</a>
+        <a href="/casas" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
 

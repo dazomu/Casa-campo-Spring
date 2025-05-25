@@ -7,44 +7,36 @@
 </head>
 <body class="bg-light">
 
-    <div class="container mt-5">
-        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
         <h2 class="mb-0">Listado de Casas de Campo</h2>
         <a th:href="@{/casas/nueva_casa}" class="btn btn-success btn-sm mt-2 mt-md-0">Agregar casa</a>
     </div>
 
-    <table class="table table-bordered table-hover table-striped">
-        <thead class="table-dark">
-            <tr>
-                <th>#</th>
-                <th>Nombre</th>
-                <th>Dirección</th>
-                <th>Precio (S/.)</th>
-                <th>Habitaciones</th>
-                <th>Disponible</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="casa, iterStat : ${casas}">
-                <td th:text="${iterStat.index + 1}">1</td>
-                <td th:text="${casa.nombre}">Nombre</td>
-                <td th:text="${casa.direccion}">Dirección</td>
-                <td th:text="${casa.precio}">Precio</td>
-                <td th:text="${casa.habitaciones}">Habitaciones</td>
-                <td>
-                    <span th:text="${casa.disponible} ? 'Sí' : 'No'" 
-                          th:classappend="${casa.disponible} ? 'text-success' : 'text-danger'">Sí</span>
-                </td>
-                <td>
-                    <a th:href="@{/casas/{id}(id=${casa.id_casa})}" class="btn btn-primary btn-sm">
-                        Ver detalles
-                    </a>
-                    <a th:href="@{/casas/editar/{id}(id=${casa.id_casa})}" class="btn btn-warning btn-sm">Modificar</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="row g-4">
+        <div class="col-md-4" th:each="casa : ${casas}">
+            <div class="card h-100 shadow-sm">
+                <img th:src="${casa.imagen}" class="card-img-top" alt="Imagen de la casa" style="object-fit: cover; height: 200px;">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${casa.nombre}">Nombre de la casa</h5>
+                    <p class="card-text">
+                        <strong>Dirección:</strong> <span th:text="${casa.direccion}">Dirección</span><br>
+                        <strong>Precio:</strong> S/ <span th:text="${casa.precio}">0.00</span><br>
+                        <strong>Habitaciones:</strong> <span th:text="${casa.habitaciones}">0</span><br>
+                        <strong>Disponible:</strong> 
+                        <span th:text="${casa.disponible} ? 'Sí' : 'No'" 
+                              th:classappend="${casa.disponible} ? 'text-success' : 'text-danger'">
+                        Sí
+                        </span>
+                    </p>
+                    <div class="d-flex justify-content-between">
+                        <a th:href="@{/casas/{id}(id=${casa.id_casa})}" class="btn btn-sm btn-outline-primary">Ver</a>
+                        <a th:href="@{/casas/editar/{id}(id=${casa.id_casa})}" class="btn btn-sm btn-outline-warning">Editar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 </body>

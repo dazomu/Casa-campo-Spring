@@ -54,4 +54,14 @@ public class CasaCampoServiceImpl implements CasaCampoService{
                                 .orElseThrow(() -> new RuntimeException("Casa no encontrada con id: " + id_casa));
     }
 
+    @Override
+    public List<CasaCampo> listarCasasDisponibles() {
+        return casaCampoRepository.findByDisponibleTrue();
+    }
+
+    // @Override
+    // public List<CasaCampo> findyByDisponibleTrue(){
+    //     return casaCampoRepository.findByDisponibleTrue();
+    // }
+
 }

@@ -14,4 +14,5 @@ public interface ReservaService {
 
     Boolean delete(Long id);
 
+    void crearReserva(Reserva reserva);
 }

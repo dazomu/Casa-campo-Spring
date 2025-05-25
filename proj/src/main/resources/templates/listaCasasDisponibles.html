@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Casas Disponibles</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+        <h2 class="mb-0">Casas Disponibles para Reservar</h2>
+        <a href="/reservas/casas" class="btn btn-outline-secondary btn-sm mt-2 mt-md-0">Mostrar todas las casas</a>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col" th:each="casa : ${casas}">
+            <div class="card h-100 shadow-sm">
+                <img th:src="${casa.imagen}" class="card-img-top" alt="Imagen de la casa" style="height: 180px; object-fit: cover;" />
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${casa.nombre}">Nombre Casa</h5>
+                    <p class="card-text" th:text="${casa.direccion}">Dirección</p>
+                    <p class="card-text"><strong>Precio: </strong>S/. <span th:text="${casa.precio}">0.00</span></p>
+                    <a th:href="@{/reservas/realizar_reserva}" class="btn btn-primary btn-sm">Reservar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

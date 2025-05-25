@@ -15,4 +15,6 @@ public interface CasaCampoService {
     Boolean update(CasaCampo campo);
 
     Boolean delete(Long id);
+
+     List<CasaCampo> listarCasasDisponibles();
 }

@@ -3,7 +3,7 @@ package com.casacampo.proj.controllers;
 import java.util.Base64;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,14 +11,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
+
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.casacampo.proj.entities.CasaCampo;
-import com.casacampo.proj.repositories.CasaCampoRepository;
+
 import com.casacampo.proj.services.CasaCampoService;
-import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 
@@ -33,7 +32,7 @@ public class CasaCampoController {
 
     public CasaCampoController(CasaCampoService casaCampoService) {
     this.casaCampoService = casaCampoService;
-}
+    }
 
     @GetMapping()
     public String listaCasas(Model model) {

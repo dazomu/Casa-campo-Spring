@@ -24,7 +24,7 @@ public class CasaCampo {
     
     private Integer habitaciones;
 
-    private byte[] imagen;
+    private String imagen;
 
     private boolean disponible;
 

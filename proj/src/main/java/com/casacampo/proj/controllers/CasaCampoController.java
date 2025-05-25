@@ -1,8 +1,6 @@
 package com.casacampo.proj.controllers;
 
-import java.util.Base64;
 import java.util.List;
-
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,9 +15,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.casacampo.proj.entities.CasaCampo;
 
 import com.casacampo.proj.services.CasaCampoService;
-
-
-
 
 
 
@@ -87,8 +82,7 @@ public class CasaCampoController {
 
         try {
        
-        casaCampoService.save(casa);
-
+            casaCampoService.save(casa);
             redirectAttributes.addFlashAttribute("mensaje", "Casa agregada correctamente");
         
         } catch (Exception e) {
@@ -96,18 +90,14 @@ public class CasaCampoController {
             e.printStackTrace();
         }
 
-
         return "redirect:/casas";
     }
     
     @PostMapping("/eliminar/{idCasa}")
     public String eliminarCasa(@PathVariable Long idCasa) {
         
-        casaCampoService.delete(idCasa);
-        
+        casaCampoService.delete(idCasa);   
         return "redirect:/casas";
     }
     
-
-
 }

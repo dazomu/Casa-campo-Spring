@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Casas de Campo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <h2 class="mb-4">Listado de Casas de Campo</h2>
+
+    <table class="table table-bordered table-hover table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>#</th>
+                <th>Nombre</th>
+                <th>Dirección</th>
+                <th>Precio (S/.)</th>
+                <th>Habitaciones</th>
+                <th>Disponible</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="casa, iterStat : ${casas}">
+                <td th:text="${iterStat.index + 1}">1</td>
+                <td th:text="${casa.nombre}">Nombre</td>
+                <td th:text="${casa.direccion}">Dirección</td>
+                <td th:text="${casa.precio}">Precio</td>
+                <td th:text="${casa.habitaciones}">Habitaciones</td>
+                <td>
+                    <span th:text="${casa.disponible} ? 'Sí' : 'No'" 
+                          th:classappend="${casa.disponible} ? 'text-success' : 'text-danger'">Sí</span>
+                </td>
+                <td>
+                    <a th:href="@{/casas/{id}(id=${casa.id_casa})}" class="btn btn-primary btn-sm">
+                        Ver detalles
+                    </a>
+                    <a th:href="@{/casas/editar/{id}(id=${casa.id_casa})}" class="btn btn-warning btn-sm">Modificar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

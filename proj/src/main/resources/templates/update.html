@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Casa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <h2>Editar Casa</h2>
+    <form th:action="@{/casas/editar}" th:object="${casa}" method="post" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{id_casa}"/>
+        
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" id="nombre" th:field="*{nombre}" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="direccion" class="form-label">Dirección</label>
+            <input type="text" id="direccion" th:field="*{direccion}" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="precio" class="form-label">Precio</label>
+            <input type="number" step="0.01" id="precio" th:field="*{precio}" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="habitaciones" class="form-label">Habitaciones</label>
+            <input type="number" id="habitaciones" th:field="*{habitaciones}" class="form-control" required />
+        </div>
+
+        <div class="mb-3 form-check">
+            <input type="checkbox" id="disponible" th:field="*{disponible}" class="form-check-input" />
+            <label for="disponible" class="form-check-label">Disponible</label>
+        </div>
+
+        <div class="mb-3">
+            <label for="imagen" class="form-label">Imagen</label>
+            <input type="file" id="imagen" name="imagen" class="form-control" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        <a href="/casas" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+
+</body>
+</html>

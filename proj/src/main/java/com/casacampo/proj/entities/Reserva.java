@@ -21,7 +21,9 @@ public class Reserva {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_reserva;
 
-    private String nombre_cliente;
+    @ManyToOne
+    @JoinColumn(name = "id_user", referencedColumnName= "id_user") // FK
+    private User user;
 
     private String telefono;
 

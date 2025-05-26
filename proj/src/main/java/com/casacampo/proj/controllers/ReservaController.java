@@ -27,7 +27,7 @@ import com.lowagie.text.pdf.PdfWriter;
 import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 
@@ -60,7 +60,7 @@ public class ReservaController {
     }
     
     
-    @GetMapping("realizar_reserva")
+    @GetMapping("/realizar_reserva")
     public String realizarReserva(Model model) {
         
         model.addAttribute("reserva", new Reserva());
@@ -71,7 +71,7 @@ public class ReservaController {
 
     }
 
-    @PostMapping("realizar_reserva")
+    @PostMapping("/realizar_reserva")
     public String postMethodName(@ModelAttribute Reserva reserva, RedirectAttributes redirectAttributes) {
         
         try {
@@ -126,7 +126,7 @@ public class ReservaController {
     // Filas
     for (Reserva r : reservas) {
         table.addCell(r.getId_reserva().toString());
-        table.addCell(r.getNombre_cliente());
+        table.addCell(r.getUser().toString()); // ESTO TAL VEZ ESTE MAL
         table.addCell(r.getTelefono());
         table.addCell(r.getFechaReserva().toString());
         table.addCell(r.getCasaCampo().getNombre());

@@ -11,7 +11,7 @@
     <h2>Editar Casa</h2>
 
     <!-- Formulario de edición -->
-    <form th:action="@{/casas/editar}" th:object="${casa}" method="post">
+    <form th:action="@{/admin/casas/editar}" th:object="${casa}" method="post">
         <input type="hidden" th:field="*{id_casa}" />
 
         <div class="mb-3">
@@ -46,12 +46,12 @@
 
         <div class="d-flex justify-content-between">
             <button type="submit" class="btn btn-success">Guardar Cambios</button>
-            <a href="/casas" class="btn btn-secondary">Cancelar</a>
+            <a href="/admin/casas" class="btn btn-secondary">Cancelar</a>
         </div>
     </form>
 
     <!-- Formulario separado para eliminar -->
-    <form th:action="@{/casas/eliminar/{id}(id=${casa.id_casa})}" method="post" 
+    <form th:action="@{/admin/casas/eliminar/{id}(id=${casa.id_casa})}" method="post" 
           onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta casa?');" class="mt-3">
         <button type="submit" class="btn btn-danger">Eliminar</button>
     </form>

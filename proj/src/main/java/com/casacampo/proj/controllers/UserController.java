@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/usuario")
 public class UserController {
 
     private final UserService userService;
@@ -44,12 +44,10 @@ public class UserController {
         user.setRol("CLIENTE");
         userService.save(user); // Asegúrate de tener un servicio configurado
 
-        return "redirect:/user/login";
+        return "redirect:/usuario/login";
         
     }
    
-    
-
     @GetMapping("/login")
     public String mostrarLogin() {
         
@@ -69,10 +67,10 @@ public class UserController {
             User user = optionalUsuario.get();
             if (user.getContrasenia().equals(contrasenia) && user.getRol().equals("CLIENTE")) {
                 session.setAttribute("usuarioLogueado", user);
-                return "redirect:/user/index"; 
+                return "redirect:/usuario/index"; 
             }else if(user.getContrasenia().equals(contrasenia) && user.getRol().equals("ADMIN")){
                 session.setAttribute("usuarioLogueado", user);
-                return "redirect:/user/indexAdmin"; 
+                return "redirect:/usuario/indexAdmin"; 
             }
         }
 
@@ -93,7 +91,7 @@ public class UserController {
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate(); // invalida la sesión actual
-        return "redirect:/login"; // redirige al login o página pública
+        return "redirect:/usuario/login"; // redirige al login o página pública
     }
 
 }

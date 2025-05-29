@@ -5,13 +5,14 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.casacampo.proj.entities.CasaCampo;
 import com.casacampo.proj.entities.Reserva;
@@ -26,69 +27,97 @@ import com.lowagie.text.pdf.PdfWriter;
 
 import jakarta.servlet.http.HttpServletResponse;
 
-import org.springframework.web.bind.annotation.PostMapping;
-
-
-
-
 @Controller
-@RequestMapping("reservas")
-public class ReservaController {
+@RequestMapping("/admin")
+public class CasaCampoAdminController {
 
-    private final CasaCampoService casaCampoService;
+     private final CasaCampoService casaCampoService;
 
     private final ReservaService reservaService;
 
-    public ReservaController(CasaCampoService casaCampoService, ReservaService reservaService) {
-        this.casaCampoService = casaCampoService;
-        this.reservaService = reservaService;                
-    }
-
+    public CasaCampoAdminController(CasaCampoService casaCampoService, ReservaService reservaService) {
+    this.casaCampoService = casaCampoService;
+    this.reservaService = reservaService;
+    
+}
 
     @GetMapping("/casas")
-    public String mostrarCasas(Model model) {
+    public String listaCasas(Model model) {
+       
         List<CasaCampo> casas = casaCampoService.findAll();
         model.addAttribute("casas", casas);
-        return "listaCasas";
+        return "listaCasasAdmin";
     }
 
-    @GetMapping("/casas/disponibles")
-    public String listarCasasDisponibles(Model model) {
-        List<CasaCampo> casasDisponibles = casaCampoService.listarCasasDisponibles();
-        model.addAttribute("casas", casasDisponibles);
-        return "listaCasasDisponibles"; // Tu template para mostrar casas disponibles
+    @GetMapping("/casas/editar/{id}")
+    public String mostrarFormEditar(@PathVariable Long id, Model model) {
+        CasaCampo casa = casaCampoService.findById(id);
+        model.addAttribute("casa", casa);
+        return "update"; 
     }
+
     
-    
-    @GetMapping("/realizar_reserva")
-    public String realizarReserva(Model model) {
-        
-        model.addAttribute("reserva", new Reserva());
-        List<CasaCampo> casasDisponibles = casaCampoService.listarCasasDisponibles(); 
-        model.addAttribute("casasDisponibles", casasDisponibles);
-        
-        return "reservaForm";
+    @PostMapping("/casas/editar")
+    public String procesarFormEditar(
+        @ModelAttribute CasaCampo casa,
+        RedirectAttributes redirectAttributes) {
 
-    }
-
-    @PostMapping("/realizar_reserva")
-    public String postMethodName(@ModelAttribute Reserva reserva, RedirectAttributes redirectAttributes) {
-        
         try {
-       
-            reservaService.crearReserva(reserva);
-            redirectAttributes.addFlashAttribute("mensaje", "Reserva creada correctamente");
-        
+            // Guarda normalmente
+            casaCampoService.save(casa);
+            redirectAttributes.addFlashAttribute("mensaje", "Casa actualizada correctamente");
+
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Error al crear la reserva: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("error", "Error al actualizar la casa: " + e.getMessage());
             e.printStackTrace();
         }
 
-        
-        return "redirect:/reservas/casas/disponibles";
+        return "redirect:/admin/casas";
+
+        }
+
+    @GetMapping("/casas/nueva")
+    public String mostrarFormCasa(Model model) {
+        model.addAttribute("casa", new CasaCampo()); 
+        return "nuevaCasa";
     }
     
-    @GetMapping("/listado")
+    @PostMapping("/casas/nueva")
+    public String procesarFormCasa(@ModelAttribute CasaCampo casa, RedirectAttributes redirectAttributes) {
+
+        try {
+       
+            casaCampoService.save(casa);
+            redirectAttributes.addFlashAttribute("mensaje", "Casa agregada correctamente");
+        
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Error al agregar casa: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return "redirect:/admin/casas";
+    }
+
+    
+    @GetMapping("/casas/{id}")
+    public String mostrarDetalleCasa(@PathVariable Long id, Model model) {
+        CasaCampo casa = casaCampoService.findById(id);
+        model.addAttribute("casa", casa);
+
+        return "detailsAdmin"; 
+    }
+
+
+    @PostMapping("/casas/eliminar/{idCasa}")
+    public String eliminarCasa(@PathVariable Long idCasa) {
+        
+        casaCampoService.delete(idCasa);   
+        return "redirect:/admin/casas";
+    }
+
+    // GESTION DE RESERVAS
+
+    @GetMapping("/reservas/listado")
     public String listadoReservas(Model model) {
         
         List<Reserva> reservas = reservaService.findAll();
@@ -96,8 +125,10 @@ public class ReservaController {
         
         return "listadoReservas";
     }
+
     
-    @GetMapping("/pdf")
+    
+    @GetMapping("/reservas/pdf")
     public void exportarReservasPdf(HttpServletResponse response) throws IOException {
     response.setContentType("application/pdf");
     response.setHeader("Content-Disposition", "attachment; filename=reporte_de_reservas.pdf");
@@ -135,5 +166,7 @@ public class ReservaController {
     document.add(table);
     document.close();
     }
+
+
 
 }

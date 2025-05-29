@@ -8,7 +8,7 @@
 <div class="container mt-5">
     <div class="col-md-6 offset-md-3">
         <h3 class="text-center mb-4">Registro de Usuario</h3>
-        <form th:action="@{/user/registro}" method="post" th:object="${user}">
+        <form th:action="@{/usuario/registro}" method="post" th:object="${user}">
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre</label>
                 <input type="text" th:field="*{nombre}" class="form-control" required>
@@ -27,6 +27,7 @@
 
             <button type="submit" class="btn btn-primary w-100">Registrarse</button>
         </form>
+        <a th:href="@{/usuario/login}" class="btn btn-success w-100">Logearse</a>
     </div>
 </div>
 </body>

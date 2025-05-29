@@ -15,7 +15,7 @@
             <div th:if="${#lists.isEmpty(reservas)}" class="alert alert-info">
                 No hay reservas registradas.
             </div>
-             <a th:href="@{/reservas/pdf}" class="btn btn-success mb-3">
+             <a th:href="@{/admin/reservas/pdf}" class="btn btn-success mb-3">
             Descargar PDF
             </a>
             <div th:unless="${#lists.isEmpty(reservas)}">
@@ -32,10 +32,12 @@
                     <tbody>
                         <tr th:each="reserva : ${reservas}">
                             <td th:text="${reserva.id_reserva}">1</td>
-                            <td th:text="${reserva.nombre_cliente}">Juan Pérez</td>
+                            <!-- CORRECCIÓN: Acceder al nombre del usuario a través de la relación -->
+                            <td th:text="${reserva.user.nombre}">Juan Pérez</td>
                             <td th:text="${reserva.telefono}">987654321</td>
                             <td th:text="${#temporals.format(reserva.fechaReserva, 'dd/MM/yyyy HH:mm')}">18/05/2025 14:30</td>
-                            <td th:text="${reserva.casaCampo.nombre}">Casa de Playa</td>
+                            <!-- CORRECCIÓN: El campo se llama CasaCampo (con mayúscula) -->
+                            <td th:text="${reserva.CasaCampo.nombre}">Casa de Playa</td>
                         </tr>
                     </tbody>
                 </table>

@@ -1,0 +1,10 @@
+{
+  "name": "tu-proyecto",
+  "version": "1.0.0",
+  "scripts": {
+    "build:css": "tailwindcss -i ./proj/src/main/resources/static/css/input.css -o ./proj/src/main/resources/static/css/styles.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.1" 
+  }
+}

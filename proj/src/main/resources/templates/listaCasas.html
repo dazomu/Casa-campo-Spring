@@ -1,40 +1,93 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Casas de Campo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casas de Campo - Renta de Casas</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
-<body class="bg-light">
+<body class="font-sans bg-fondo text-text-main">
 
-<div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
-        <h2 class="mb-0">Listado de Casas de Campo</h2>
-        <a th:href="@{/casas/disponibles}" class="btn btn-ligth btn-sm mt-2 mt-md-0">Ver solo casas disponibles</a>
-    </div>
-
-    <div class="row g-4">
-        <div class="col-md-4" th:each="casa : ${casas}">
-            <div class="card h-100 shadow-sm">
-                <img th:src="${casa.imagen}" class="card-img-top" alt="Imagen de la casa" style="object-fit: cover; height: 200px;">
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${casa.nombre}">Nombre de la casa</h5>
-                    <p class="card-text">
-                        <strong>Dirección:</strong> <span th:text="${casa.direccion}">Dirección</span><br>
-                        <strong>Precio:</strong> S/ <span th:text="${casa.precio}">0.00</span><br>
-                        <strong>Habitaciones:</strong> <span th:text="${casa.habitaciones}">0</span><br>
-                        <strong>Disponible:</strong> 
-                        <span th:text="${casa.disponible} ? 'Sí' : 'No'" 
-                              th:classappend="${casa.disponible} ? 'text-success' : 'text-danger'">
-                        Sí
-                        </span>
-                    </p>
-                    
+    <div class="min-h-screen">
+        
+        <header class="bg-surface/80 backdrop-blur-md sticky top-0 z-20 border-b border-gray-200">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex-shrink-0">
+                        <a th:href="@{/}" class="text-2xl font-bold text-accent">Camp-Rent</a>
+                    </div>
                 </div>
             </div>
-        </div>
+        </header>
+
+        <!-- Contenido Principal -->
+        <main class="container mx-auto p-4 sm:p-6 lg:p-8">
+            
+            <!-- Encabezado de la página -->
+            <div class="flex justify-between items-center mb-8 flex-wrap gap-4">
+                <div>
+                    <h1 class="text-3xl md:text-4xl font-bold">Listado de Casas de Campo</h1>
+                    <p class="text-gray-500 mt-1">Explora todas nuestras propiedades.</p>
+                </div>
+                <a th:href="@{/casas/disponibles}" class="bg-surface text-gray-700 font-bold py-2 px-5 rounded-xl border border-gray-200 hover:bg-gray-100 transition text-sm">
+                    Ver solo disponibles
+                </a>
+            </div>
+
+            <!-- 
+                Cuadrícula de Casas:
+                - `grid`: Activa el layout de cuadrícula.
+                - `grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4`: Define el número de columnas según el tamaño de la pantalla.
+                - `gap-8`: Espacio entre las tarjetas.
+            -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+
+                <!-- 
+                    Bucle de Thymeleaf para mostrar cada casa.
+                -->
+                <div th:each="casa : ${casas}" class="bg-surface rounded-2xl shadow-lg overflow-hidden flex flex-col transform hover:-translate-y-1 transition-transform duration-300">
+                    
+                    <!-- Imagen de la casa -->
+                    <div class="relative">
+                         <img th:src="${casa.imagen}" alt="Imagen de la casa" class="w-full h-56 object-cover">
+                         <!-- Etiqueta de disponibilidad sobre la imagen -->
+                         <span class="absolute top-0 left-0 m-4 text-xs font-bold px-3 py-1 rounded-full"
+                              th:text="${casa.disponible} ? 'Disponible' : 'No Disponible'"
+                              th:classappend="${casa.disponible ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                        </span>
+                    </div>
+                    
+                    <!-- Contenido de la tarjeta -->
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold mb-1" th:text="${casa.nombre}">Nombre de la Casa</h3>
+                        <p class="text-gray-500 text-sm mb-4" th:text="${casa.direccion}">Dirección de la casa</p>
+                        
+                        <div class="space-y-2 text-sm text-gray-700">
+                             <div class="flex justify-between">
+                                <span>Precio / Noche:</span>
+                                <span class="font-semibold" th:text="'S/. ' + ${#numbers.formatDecimal(casa.precio, 1, 'COMMA', 2, 'POINT')}">S/. 0.00</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Habitaciones:</span>
+                                <span class="font-semibold" th:text="${casa.habitaciones}">0</span>
+                            </div>
+                        </div>
+
+                        <!-- Espaciador para empujar el botón hacia abajo -->
+                        <div class="flex-grow"></div>
+
+                        <!-- Botón de Acción -->
+                        <div class="mt-6">
+                            <a th:href="@{/casas/{id}(id=${casa.id_casa})}" class="block w-full text-center bg-accent text-white font-bold py-3 px-5 rounded-xl shadow-lg hover:brightness-90 transition text-sm">
+                                Ver Detalles
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
     </div>
-</div>
 
 </body>
 </html>

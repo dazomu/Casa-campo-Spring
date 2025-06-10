@@ -1,37 +1,89 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
-    <title>Casas Disponibles</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casas Disponibles - Renta de Casas</title>
+    
+    <!-- Enlazamos la hoja de estilos global generada por Tailwind -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <!-- Iconos de Lucide para la UI -->
+    <script src="https://cdn.jsdelivr.net/npm/lucide-static@latest/cdn/lucide.js"></script>
 </head>
-<body class="bg-light">
+<body class="font-sans bg-surface text-text-main">
 
-<div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
-        <h2 class="mb-0">Casas Disponibles para Reservar</h2>
-        <a th:href="@{/usuario/logout}"> Cerrar Sesion</a>
-        <a href="/casas" class="btn btn-outline-secondary btn-sm mt-2 mt-md-0">Mostrar todas las casas</a>
-    </div>
-
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        <div class="col" th:each="casa : ${casas}">
-            <div class="card h-100 shadow-sm">
-                <img th:src="${casa.imagen}" class="card-img-top" alt="Imagen de la casa" style="height: 180px; object-fit: cover;" />
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${casa.nombre}">Nombre Casa</h5>
-                    <p class="card-text" th:text="${casa.direccion}">Dirección</p>
-                    <p class="card-text"><strong>Precio: </strong>S/. <span th:text="${casa.precio}">0.00</span></p>
-
-                    <div class="d-flex">
-                        <a th:href="@{/casas/{id}(id=${casa.id_casa})}" class="btn btn-outline-primary btn-sm me-2">Ver detalles</a>
-                       <a th:href="@{/casas/reserva/nueva/{id}(id=${casa.id_casa})}" class="btn btn-primary btn-sm">Reservar</a>
+    <!-- Contenedor Principal -->
+    <div class="min-h-screen">
+        
+        <!-- Barra de Navegación Superior -->
+        <header class="bg-surface/80 backdrop-blur-md sticky top-0 z-20 border-b border-gray-200">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex-shrink-0">
+                        <a th:href="@{/}" class="text-2xl font-bold text-importante">
+                           Camp-Rent
+                        </a>
+                    </div>
+                    <div class="flex items-center">
+                        <a th:href="@{/usuario/logout}" class="text-sm font-medium text-gray-500 hover:text-importante transition-colors duration-200">
+                            Cerrar sesión
+                        </a>
                     </div>
                 </div>
             </div>
-        </div>
+        </header>
+
+        <!-- Contenido Principal -->
+        <main class="container mx-auto px-4 sm:px-6 lg:px-8">
+            
+                   <!-- Cuadrícula de Casas -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 py-8">
+
+                <div th:each="casa, iterStat : ${casas}" class="group bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col transform transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
+                    
+                    <div class="relative">
+                         <!-- La imagen se agranda al pasar el mouse sobre la tarjeta -->
+                         <img th:src="${casa.imagen}" alt="Imagen de la casa" class="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105">
+
+
+                         <!-- Nombre de la casa sobre la imagen -->
+                         <div class="absolute bottom-0 left-0 p-4 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                            <h3 class="text-xl font-bold text-white" th:text="${casa.nombre}">Nombre de la Casa</h3>
+                            <p class="text-gray-200 text-sm" th:text="${casa.direccion}">Dirección de la casa</p>
+                         </div>
+                         
+                         <!-- Distintivo de "Destacado" para la primera casa -->
+                         <div th:if="${iterStat.index == 0}" class="absolute top-0 left-0 bg-importante text-white text-xs font-bold px-3 py-1 m-4 rounded-full">
+                            Destacado
+                         </div>
+                    </div>
+                    
+                    <!-- Contenido de la tarjeta -->
+                    <div class="p-6 flex flex-col flex-grow">
+
+                        <!-- Precio -->
+                        <p class="text-lg font-semibold text-text-main mb-4">
+                           S/. <span th:text="${#numbers.formatDecimal(casa.precio, 1, 'COMMA', 0, 'POINT')}">150</span>
+                            <span class="text-sm font-normal text-gray-500">/ noche</span>
+                        </p>
+                        
+                        <div class="flex-grow"></div>
+
+                        <!-- Botones de Acción -->
+                        <div class="flex items-center space-x-3 mt-4">
+                            <a th:href="@{/casas/{id}(id=${casa.id_casa})}" class="flex-1 text-center bg-gray-100 text-gray-800 font-semibold py-3 px-4 rounded-lg hover:bg-gray-200 transition-colors duration-300">
+                                Ver detalles
+                            </a>
+                            <a th:href="@{/casas/reserva/nueva/{id}(id=${casa.id_casa})}" class="flex-1 text-center bg-importante text-white font-bold py-3 px-4 rounded-lg hover:brightness-90 transition-all">
+                                Reservar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
     </div>
-</div>
 
 </body>
 </html>

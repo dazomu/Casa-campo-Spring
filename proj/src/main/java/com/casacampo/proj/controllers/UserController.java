@@ -67,7 +67,7 @@ public class UserController {
             User user = optionalUsuario.get();
             if (user.getContrasenia().equals(contrasenia) && user.getRol().equals("CLIENTE")) {
                 session.setAttribute("usuarioLogueado", user);
-                return "redirect:/usuario/index"; 
+                return "redirect:/casas/disponibles"; 
             }else if(user.getContrasenia().equals(contrasenia) && user.getRol().equals("ADMIN")){
                 session.setAttribute("usuarioLogueado", user);
                 return "redirect:/usuario/indexAdmin"; 

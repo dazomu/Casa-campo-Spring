@@ -1,62 +1,126 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
-    <title>Editar Casa</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Casa - Admin</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <!-- Estilos para el interruptor (toggle switch) -->
+    <style>
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #6f66eb; /* 'accent' color */
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #6f66eb; /* 'accent' color */
+        }
+    </style>
 </head>
-<body class="bg-light">
+<body class="font-sans bg-fondo text-text-main">
 
-<div class="container mt-5">
-    <h2>Editar Casa</h2>
+    <div class="min-h-screen">
+        <!-- Contenido principal con los márgenes definidos y más compacto -->
+        <main class="w-full lg:w-2/3 mx-auto p-8">
+            <header class="mb-6">
+                <a th:href="@{/admin/casas}" class="inline-flex items-center text-sm font-semibold text-gray-500 hover:text-accent">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mr-2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    Volver al listado
+                </a>
+                <h1 class="text-2xl font-bold mt-2">Editar Propiedad</h1>
+            </header>
+            
+            <form th:action="@{/admin/casas/editar}" th:object="${casa}" method="post">
+                <input type="hidden" th:field="*{id_casa}" />
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Columna Izquierda: Imagen y URL -->
+                    <div class="lg:col-span-1">
+                        <div class="space-y-4">
+                            <div>
+                                <label class="text-sm font-medium text-gray-700">Vista Previa</label>
+                                <div class="mt-1 aspect-w-16 aspect-h-10 bg-surface rounded-2xl shadow-inner flex items-center justify-center">
+                                     <img id="image-preview" th:src="${casa.imagen}" alt="Vista previa de la casa" class="w-full h-full object-cover rounded-2xl" 
+                                          onerror="this.style.display='none'; document.getElementById('image-placeholder').style.display='flex';" />
+                                     <div id="image-placeholder" class="text-gray-400 items-center justify-center" th:style="${casa.imagen} ? 'display:none;' : 'display:flex;'">
+                                         <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14"></path></svg>
+                                     </div>
+                                </div>
+                            </div>
+                             <div>
+                                <label for="imagen" class="text-sm font-medium text-gray-700">URL de la Imagen</label>
+                                <input type="text" id="imagen" th:field="*{imagen}" oninput="document.getElementById('image-preview').src = this.value; document.getElementById('image-preview').style.display='block'; document.getElementById('image-placeholder').style.display='none';" class="w-full mt-1 p-3 bg-surface rounded-xl border-transparent focus:border-accent focus:ring-accent" />
+                            </div>
+                        </div>
+                    </div>
 
-    <!-- Formulario de edición -->
-    <form th:action="@{/admin/casas/editar}" th:object="${casa}" method="post">
-        <input type="hidden" th:field="*{id_casa}" />
+                    <!-- Columna Derecha: Detalles -->
+                    <div class="lg:col-span-2 space-y-4">
+                        <div>
+                            <label for="nombre" class="text-sm font-medium text-gray-700">Nombre</label>
+                            <input type="text" id="nombre" th:field="*{nombre}" class="w-full mt-1 p-3 bg-surface rounded-xl border-transparent focus:border-importante focus:ring-importante" required />
+                        </div>
+                        <div>
+                            <label for="direccion" class="text-sm font-medium text-gray-700">Dirección</label>
+                            <input type="text" id="direccion" th:field="*{direccion}" class="w-full mt-1 p-3 bg-surface rounded-xl border-transparent focus:border-importante focus:ring-importante" required />
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                             <div>
+                                <label for="precio" class="text-sm font-medium text-gray-700">Precio</label>
+                                <input type="number" step="0.01" id="precio" th:field="*{precio}" class="w-full mt-1 p-3 bg-surface rounded-xl border-transparent focus:border-importante focus:importante" required />
+                            </div>
+                             <div>
+                                <label for="habitaciones" class="text-sm font-medium text-gray-700">Habitaciones</label>
+                                <input type="number" id="habitaciones" th:field="*{habitaciones}" class="w-full mt-1 p-3 bg-surface rounded-xl border-transparent focus:border-importante focus-ring-importante" required />
+                            </div>
+                        </div>
+                         <div>
+                            <label class="text-sm font-medium text-gray-700">Disponibilidad</label>
+                            <div class="mt-2">
+                                <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                                    <input type="checkbox" id="disponible" th:field="*{disponible}" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
+                                    <label for="disponible" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                                </div>
+                                <span class="text-gray-700 text-sm">Disponible para reservas</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-end gap-3 pt-2">
+                            <a href="/admin/casas" class="bg-gray-200 text-gray-800 font-bold py-2 px-5 rounded-xl hover:bg-gray-300 transition text-sm">Cancelar</a>
+                            <button type="submit" class="bg-importante text-white font-bold py-2 px-5 rounded-xl shadow-lg hover:brightness-90 transition text-sm">Guardar Cambios</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            
+            <!-- Zona de Peligro -->
+            <div class="mt-12 border-t pt-6">
+                 <h3 class="text-base font-semibold text-red-600">¿Deseas Eliminar esta Propiedad?</h3>
+                 <div class="flex justify-between items-center mt-2">
+                    <p class="text-sm text-gray-600">Eliminar esta propiedad es una acción permanente y no se puede deshacer.</p>
+                    <button onclick="document.getElementById('delete-modal').classList.remove('hidden')" class="bg-red-600 text-white font-bold py-2 px-5 rounded-xl shadow-lg hover:bg-red-700 transition text-sm">
+                        Eliminar Casa
+                    </button>
+                 </div>
+            </div>
+        </main>
+    </div>
 
-        <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" id="nombre" th:field="*{nombre}" class="form-control" required />
+    <!-- Modal de Confirmación de Eliminación -->
+    <div id="delete-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-30 flex items-center justify-center p-4">
+        <div class="bg-surface rounded-2xl shadow-2xl p-8 max-w-md w-full">
+            <h3 class="text-xl font-bold">Confirmar Eliminación</h3>
+            <p class="text-gray-600 mt-2">¿Estás seguro de que deseas eliminar permanentemente esta casa? Esta acción no se puede deshacer.</p>
+            <div class="mt-6 flex justify-end gap-4">
+                 <button onclick="document.getElementById('delete-modal').classList.add('hidden')" class="bg-gray-200 text-gray-800 font-bold py-2 px-6 rounded-xl hover:bg-gray-300 transition text-sm">
+                    Cancelar
+                </button>
+                <form th:action="@{/admin/casas/eliminar/{id}(id=${casa.id_casa})}" method="post">
+                    <button type="submit" class="bg-red-600 text-white font-bold py-2 px-6 rounded-xl shadow-lg hover:bg-red-700 transition text-sm">
+                        Sí, eliminar
+                    </button>
+                </form>
+            </div>
         </div>
-
-        <div class="mb-3">
-            <label for="direccion" class="form-label">Dirección</label>
-            <input type="text" id="direccion" th:field="*{direccion}" class="form-control" required />
-        </div>
-
-        <div class="mb-3">
-            <label for="precio" class="form-label">Precio</label>
-            <input type="number" step="0.01" id="precio" th:field="*{precio}" class="form-control" required />
-        </div>
-
-        <div class="mb-3">
-            <label for="habitaciones" class="form-label">Habitaciones</label>
-            <input type="number" id="habitaciones" th:field="*{habitaciones}" class="form-control" required />
-        </div>
-
-        <div class="mb-3 form-check">
-            <input type="checkbox" id="disponible" th:field="*{disponible}" class="form-check-input" />
-            <label for="disponible" class="form-check-label">Disponible</label>
-        </div>
-
-        <div class="mb-3">
-            <label for="imagen" class="form-label">URL de la Imagen</label>
-            <input type="text" id="imagen" th:field="*{imagen}" class="form-control" />
-        </div>
-
-        <div class="d-flex justify-content-between">
-            <button type="submit" class="btn btn-success">Guardar Cambios</button>
-            <a href="/admin/casas" class="btn btn-secondary">Cancelar</a>
-        </div>
-    </form>
-
-    <!-- Formulario separado para eliminar -->
-    <form th:action="@{/admin/casas/eliminar/{id}(id=${casa.id_casa})}" method="post" 
-          onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta casa?');" class="mt-3">
-        <button type="submit" class="btn btn-danger">Eliminar</button>
-    </form>
-
-</div>
+    </div>
 
 </body>
 </html>

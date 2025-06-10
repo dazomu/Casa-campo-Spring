@@ -1,86 +1,89 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
-    <title>Reservar Casa</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <style>
-        #detalle-casa img {
-            width: 100%;
-            max-height: 200px;
-            object-fit: cover;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmar Reserva - Camp-Rent</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
-<body class="bg-light">
-    <div class="container mt-4">
-        <h2>Confirmar Reserva</h2>
+<body class="font-sans bg-fondo text-text-main">
+
+    <div class="min-h-screen flex flex-col">
         
-        <!-- Información de la casa seleccionada -->
-        <div class="card mb-4">
-            <div class="card-header">
-                <h5>Casa Seleccionada</h5>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-4">
-                        <img th:src="${casa.imagen}" class="img-fluid rounded" alt="Imagen de la casa" />
-                    </div>
-                    <div class="col-md-8">
-                        <h6 th:text="${casa.nombre}"></h6>
-                        <p><strong>Dirección:</strong> <span th:text="${casa.direccion}"></span></p>
-                        <p><strong>Habitaciones:</strong> <span th:text="${casa.habitaciones}"></span></p>
-                        <p><strong>Precio:</strong> S/. <span th:text="${casa.precio}"></span></p>
+        <header class="bg-surface/80 backdrop-blur-md sticky top-0 z-20 border-b border-gray-200">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex-shrink-0">
+                        <a th:href="@{/}" class="text-2xl font-bold text-importante">Camp-Rent</a>
                     </div>
                 </div>
             </div>
-        </div>
+        </header>
 
-        <!-- Formulario de reserva simplificado -->
-        <form th:action="@{/casas/reserva/nueva}" th:object="${reserva}" method="post">
-            
-            <!-- Campo oculto con el ID de la casa -->
-            <input type="hidden" name="idCasaCampo" th:value="${casa.id_casa}" />
-            
-            <div class="card">
-                <div class="card-header">
-                    <h5>Datos de la Reserva</h5>
-                </div>
-                <div class="card-body">
-                    
-                    <!-- Mostrar nombre del usuario (solo lectura) -->
-                    <div class="mb-3">
-                        <label class="form-label">Cliente</label>
-                        <input type="text" class="form-control" th:value="${usuarioLogueado.nombre}" readonly />
+        <main class="flex-grow flex items-center">
+
+            <div class="w-full lg:w-2/3 mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+
+                    <!-- Columna Izquierda: Resumen de la Casa -->
+                    <div class="lg:col-span-1">
+                        <div class="bg-surface rounded-3xl shadow-xl p-6">
+                           <h2 class="text-2xl font-bold mb-4">Tu Selección</h2>
+                            <div th:if="${casa.imagen != null}" class="mb-4">
+                               <img th:src="${casa.imagen}" alt="Imagen de la casa" class="w-full h-auto object-cover rounded-2xl aspect-[16/9]" />
+                            </div>
+                            <h3 class="text-xl font-bold" th:text="${casa.nombre}">Nombre de la Casa</h3>
+                            <p class="mt-1 text-sm text-gray-500" th:text="${casa.direccion}">Dirección de la casa</p>
+                            <hr class="my-4">
+                            <div class="flex justify-between items-center">
+                                <p class="text-sm text-gray-600">Precio / Noche</p>
+                                <p class="text-lg font-bold">S/. <span th:text="${#numbers.formatDecimal(casa.precio, 1, 'COMMA', 0, 'POINT')}">0</span></p>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Teléfono -->
-                    <div class="mb-3">
-                        <label for="telefono" class="form-label">Teléfono de contacto</label>
-                        <input type="tel" id="telefono" th:field="*{telefono}" class="form-control" 
-                            placeholder="Ej: 987654321" required />
-                    </div>
+                    <!-- Columna Derecha: Formulario de Reserva -->
+                    <div class="lg:col-span-1">
+                        <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">Confirma tus Datos</h1>
+                        <p class="mt-2 text-sm text-gray-500">Ya casi terminas. Completa los siguientes campos para asegurar tu reserva.</p>
+                        
+                        <form th:action="@{/casas/reserva/nueva}" th:object="${reserva}" method="post" class="mt-8 space-y-6">
+                            <!-- Campo oculto con el ID de la casa -->
+                            <input type="hidden" name="idCasaCampo" th:value="${casa.id_casa}" />
+                            
+                            <!-- Campos del formulario -->
+                            <div>
+                                <label class="text-sm font-medium text-gray-700">Cliente</label>
+                                <input type="text" class="w-full mt-1 p-3 bg-surface rounded-xl border-transparent focus:border-importante focus:ring-importante" th:value="${usuarioLogueado.nombre}" readonly />
+                            </div>
+                            
+                            <div>
+                                <label for="telefono" class="text-sm font-medium text-gray-700">Teléfono de contacto</label>
+                                <input type="tel" id="telefono" th:field="*{telefono}" class="w-full mt-1 p-3 bg-surface rounded-xl border-transparent focus:border-importante focus:ring-importante" placeholder="Ej: 987654321" required />
+                            </div>
 
-                    <!-- Fecha y hora de reserva -->
-                    <div class="mb-3">
-                        <label for="fechaReserva" class="form-label">Fecha y Hora de la Reserva</label>
-                        <input type="datetime-local" id="fechaReserva" th:field="*{fechaReserva}" 
-                            class="form-control" required />
+                            <div>
+                                <label for="fechaReserva" class="text-sm font-medium text-gray-700">Fecha y Hora de la Reserva</label>
+                                <input type="datetime-local" id="fechaReserva" th:field="*{fechaReserva}" class="w-full mt-1 p-3 bg-surface rounded-xl border-transparent focus:border-importante focus:importante" required />
+                            </div>
+                            
+                            <!-- Botones -->
+                            <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                                <button type="submit" class="w-full text-center bg-importante text-white font-bold py-3 px-5 rounded-xl shadow-lg hover:brightness-90 transition text-sm">
+                                    Confirmar Reserva
+                                </button>
+                                <a th:href="@{'/casas/' + ${casa.id_casa}}" class="w-full text-center bg-gray-200 text-gray-800 font-bold py-3 px-5 rounded-xl hover:bg-gray-300 transition text-sm">
+                                    Volver
+                                </a>
+                            </div>
+                        </form>
                     </div>
-
-                    <!-- Botones -->
-                    <div class="d-flex gap-2">
-                        <button type="submit" class="btn btn-success">
-                            <i class="fas fa-check"></i> Confirmar Reserva
-                        </button>
-                        <a th:href="@{'/casas/' + ${casa.id_casa}}" class="btn btn-secondary">
-                            <i class="fas fa-arrow-left"></i> Volver a Detalles
-                        </a>
-                    </div>
-                    
                 </div>
             </div>
-        </form>
+        </main>
+        
+        <footer class="h-16"></footer>
     </div>
+
 </body>
 </html>

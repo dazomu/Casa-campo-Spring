@@ -34,12 +34,6 @@
                 </a>
             </div>
 
-            <!-- 
-                Cuadrícula de Casas:
-                - `grid`: Activa el layout de cuadrícula.
-                - `grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4`: Define el número de columnas según el tamaño de la pantalla.
-                - `gap-8`: Espacio entre las tarjetas.
-            -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
 
                 <!-- 
@@ -50,7 +44,6 @@
                     <!-- Imagen de la casa -->
                     <div class="relative">
                          <img th:src="${casa.imagen}" alt="Imagen de la casa" class="w-full h-56 object-cover">
-                         <!-- Etiqueta de disponibilidad sobre la imagen -->
                          <span class="absolute top-0 left-0 m-4 text-xs font-bold px-3 py-1 rounded-full"
                               th:text="${casa.disponible} ? 'Disponible' : 'No Disponible'"
                               th:classappend="${casa.disponible ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">

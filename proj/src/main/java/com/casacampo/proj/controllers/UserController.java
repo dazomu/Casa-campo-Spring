@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
+
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.casacampo.proj.entities.User;
@@ -16,7 +16,7 @@ import com.casacampo.proj.services.UserService;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
@@ -93,5 +93,4 @@ public class UserController {
         session.invalidate(); // invalida la sesión actual
         return "redirect:/usuario/login"; // redirige al login o página pública
     }
-
 }

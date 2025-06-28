@@ -2,24 +2,151 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
-    <title>Panel CLIENTE</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camp-Rent - Tu Escapada Perfecta al Campo</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <!-- Configuración de la nueva paleta de colores -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
 </head>
-<body>
-  <div class="container mt-4">
-    <h1 class="mb-4">Panel de Cliente</h1>
-    <nav>
-      <ul class="nav flex-column">
-        <li class="nav-item mb-2">
-          <a class="nav-link btn btn-outline-primary" th:href="@{/casas/disponibles}">Ver Casas</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link btn btn-outline-danger" th:href="@{/usuario/logout}">Cerrar sesión</a>
-        </li>
-      </ul>
-    </nav>
-  </div>
+<body class="font-sans bg-fondo text-text-main">
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="min-h-screen">
+        
+        <!-- Navbar con el nuevo logo integrado -->
+        <header class="bg-surface/80 backdrop-blur-md sticky top-0 z-20 border-b border-gray-200">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex-shrink-0">
+                        <!-- Logo SVG + Nombre de la marca -->
+                        <a th:href="@{/}" class="flex items-center gap-2 text-2xl font-bold text-importante">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="#6f66eb"/>
+                                <path d="M2 17L12 22L22 17L12 12L2 17Z" fill="#6f66eb" fill-opacity="0.6"/>
+                            </svg>
+                            <span>Camp-Rent</span>
+                        </a>
+                    </div>
+                    <nav class="hidden md:flex items-center space-x-8">
+                        <a href="#nosotros" class="text-sm font-medium text-gray-500 hover:text-importante">Nosotros</a>
+                        <a href="#sedes" class="text-sm font-medium text-gray-500 hover:text-importante">Sedes</a>
+                        <a href="#mision" class="text-sm font-medium text-gray-500 hover:text-importante">Filosofía</a>
+                    </nav>
+                    <div class="flex items-center gap-4">
+                        <a th:href="@{/usuario/login}" class="text-sm font-medium text-gray-600 hover:text-importante">Iniciar Sesión</a>
+                        <a th:href="@{/usuario/registro}" class="bg-importante text-white font-bold py-2 px-5 rounded-xl shadow-lg hover:brightness-90 transition text-sm">
+                            Registrarse
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Contenedor principal -->
+        <div class="w-full lg:w-4/6 mx-auto">
+            <!-- Sección Principal -->
+            <section class="relative text-center py-28 md:py-40">
+                <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight">
+                    Encuentra tu Refugio <span class="text-importante">Lejos de la Ciudad</span>
+                </h1>
+                <p class="mt-6 max-w-2xl mx-auto text-lg text-gray-600">
+                    Propiedades exclusivas para desconectar, respirar aire puro y crear recuerdos inolvidables.
+                </p>
+                <div class="mt-8">
+                     <a th:href="@{/casas/disponibles}" class="bg-importante text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:brightness-90 transition text-base">
+                        Ver Propiedades
+                    </a>
+                </div>
+            </section>
+
+            <!-- Sección Nosotros -->
+            <section id="nosotros" class="py-24 md:py-32">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                    <div>
+                        <img src="/img/portada.png" alt="Fundadores de Camp-Rent" class="rounded-3xl shadow-2xl aspect-[4/5] object-cover">
+                    </div>
+                    <div class="prose prose-lg max-w-none">
+                        <h2 class="text-3xl font-bold text-importante">Nuestra Historia</h2>
+                        <h3>De un Sueño a tu Refugio</h3>
+                     
+                        <p>Camp-Rent nació de una necesidad simple: la de escapar del ruido y la rutina. Como muchos, sentíamos que la vida en la ciudad nos consumía. Anhelábamos un lugar donde el único despertador fuera el canto de los pájaros.</p>    <br>
+                        <p>Comenzamos con una pequeña cabaña familiar, nuestro propio santuario. Al compartir nuestra experiencia, descubrimos que no éramos los únicos. Así, decidimos transformar nuestra pasión en una misión: conectar a las personas con espacios únicos para reencontrarse con la naturaleza. Hoy, cada casa en nuestra colección es un lugar que primero nos enamoró a nosotros, y que ahora abrimos para ti.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección sedes  -->
+            <section id="sedes" class="py-24 md:py-32">
+                 <div class="text-center mb-16">
+                     <h2 class="text-3xl font-bold">Explora Nuestras Sedes</h2>
+                     <p class="text-gray-600 mt-2">Cada una con un encanto especial, esperando por ti.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Tarjeta 1 -->
+                    <div class="bg-surface rounded-2xl shadow-lg overflow-hidden flex flex-col transform hover:-translate-y-1 transition-transform duration-300">
+                        <img src="/img/cajamarca.png" class="w-full h-56 object-cover" alt="Cabaña del Río">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold">Cabaña del Río</h3>
+                            <p class="text-sm text-gray-500 mb-4">Cieneguilla, Lima</p>
+                        </div>
+                    </div>
+                    <!-- Tarjeta 2 -->
+                    <div class="bg-surface rounded-2xl shadow-lg overflow-hidden flex flex-col transform hover:-translate-y-1 transition-transform duration-300">
+                        <img src="/img/pachacamac.avif" class="w-full h-56 object-cover" alt="Villa Serena">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold">Villa Serena</h3>
+                            <p class="text-sm text-gray-500 mb-4">Chaclacayo, Lima</p>
+                        </div>
+                    </div>
+                    <!-- Tarjeta 3 -->
+                    <div class="bg-surface rounded-2xl shadow-lg overflow-hidden flex flex-col transform hover:-translate-y-1 transition-transform duration-300">
+                        <img src="/img/tarapoto.png" class="w-full h-56 object-cover" alt="Refugio Andino">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold">Refugio Andino</h3>
+                            <p class="text-sm text-gray-500 mb-4">Antioquía, Huarochirí</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección Misión, Visión-->
+            <section id="mision" class="py-24 md:py-32">
+                <div class="text-center mb-16">
+                     <h2 class="text-3xl font-bold">Nuestra Filosofía</h2>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Misión y Visión -->
+                    <div class="bg-surface p-8 rounded-2xl shadow-xl space-y-8">
+                        <div>
+                            <h3 class="text-2xl font-bold mb-4 text-importante">Misión</h3>
+                            <p class="text-gray-600">Ofrecer refugios de alta calidad que permitan a nuestros huéspedes desconectar de la rutina y reconectar con la naturaleza.</p>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold mb-4 text-importante">Visión</h3>
+                            <p class="text-gray-600">Ser la plataforma líder y de mayor confianza en el alquiler de casas de campo en la región.</p>
+                        </div>
+                    </div>
+                    <!-- Valores -->
+                    <div class="bg-importante text-white p-8 rounded-2xl shadow-xl flex flex-col justify-center">
+                        <h3 class="text-2xl font-bold mb-4">Valores</h3>
+                        <ul class="space-y-3 list-disc list-inside">
+                            <li><strong>Confianza:</strong> Transparencia en cada reserva.</li>
+                            <li><strong>Calidad:</strong> Propiedades que cumplen nuestros estándares.</li>
+                            <li><strong>Respeto:</strong> Por nuestros clientes y el medio ambiente.</li>
+                            <li><strong>Pasión:</strong> Amamos lo que hacemos.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer class="bg-fondo py-12">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500">
+                <p>&copy; 2025 Camp-Rent. Todos los derechos reservados.</p>
+            </div>
+        </footer>
+
+    </div>
+
 </body>
 </html>

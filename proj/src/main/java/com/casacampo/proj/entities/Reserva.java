@@ -32,5 +32,5 @@ public class Reserva {
     @ManyToOne
     @JoinColumn(name = "id_casa", referencedColumnName = "id_casa") // FK
     private CasaCampo casaCampo;
-
+    
 }

@@ -2,6 +2,8 @@ package com.casacampo.proj.controllers;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -27,10 +29,11 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/casas")
 public class CasaCampoClienteController {
 
-    
+    private final Logger LOG = LoggerFactory.getLogger(CasaCampoClienteController.class);
+
     private final CasaCampoService casaCampoService;
 
-     private final ReservaService reservaService;
+    private final ReservaService reservaService;
 
     public CasaCampoClienteController(CasaCampoService casaCampoService, ReservaService reservaService) {
     this.casaCampoService = casaCampoService;
@@ -47,8 +50,18 @@ public class CasaCampoClienteController {
     }
 
     @GetMapping("/disponibles")
-    public String listarCasasDisponibles(Model model) {
+    public String listarCasasDisponibles(Model model, HttpSession session) {
+
+        User user = (User) session.getAttribute("usuarioLogueado");
+
+        LOG.info("El usuario es este: " + user.getNombre());
+
         List<CasaCampo> casasDisponibles = casaCampoService.listarCasasDisponibles();
+
+        model.addAttribute("nombreUsuario", user.getNombre());
+
+
+
         model.addAttribute("casas", casasDisponibles);
         return "listaCasasDisponibles"; // Tu template para mostrar casas disponibles
     }
@@ -118,11 +131,5 @@ public class CasaCampoClienteController {
 
     return "redirect:/casas/disponibles";
     }
-
-
-
-   
-    
-    
     
 }

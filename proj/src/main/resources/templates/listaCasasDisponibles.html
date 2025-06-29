@@ -1,31 +1,40 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Casas Disponibles - Renta de Casas</title>
-    
+
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
-    
+
     <!-- Iconos de Lucide para la UI -->
     <script src="https://cdn.jsdelivr.net/npm/lucide-static@latest/cdn/lucide.js"></script>
 </head>
+
 <body class="font-sans bg-surface text-text-main">
 
     <!-- Contenedor Principal -->
     <div class="min-h-screen">
-        
+
         <!-- Barra de Navegación Superior -->
         <header class="bg-surface/80 backdrop-blur-md sticky top-0 z-20 border-b border-gray-200">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16">
                     <div class="flex-shrink-0">
                         <a th:href="@{/}" class="text-2xl font-bold text-importante">
-                           Camp-Rent
+                            Camp-Rent
                         </a>
                     </div>
+
+                    <div class="flex space-x-2 items-center bg-gray-100 px-4 py-2 rounded-xl shadow">
+                        <p class="text-gray-600">Hola!</p>
+                        <p class="text-blue-600 font-semibold" th:text="${nombreUsuario}"></p>
+                    </div>
+
                     <div class="flex items-center">
-                        <a th:href="@{/usuario/logout}" class="text-sm font-medium text-gray-500 hover:text-importante transition-colors duration-200">
+                        <a th:href="@{/usuario/logout}"
+                            class="text-sm font-medium text-gray-500 hover:text-importante transition-colors duration-200">
                             Cerrar sesión
                         </a>
                     </div>
@@ -35,46 +44,53 @@
 
         <!-- Contenido Principal -->
         <main class="container mx-auto px-4 sm:px-6 lg:px-8">
-            
-                   <!-- Cuadrícula de Casas -->
+
+            <!-- Cuadrícula de Casas -->
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 py-8">
 
-                <div th:each="casa, iterStat : ${casas}" class="group bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col transform transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
-                    
+                <div th:each="casa, iterStat : ${casas}"
+                    class="group bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col transform transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
+
                     <div class="relative">
-                         <!-- La imagen se agranda al pasar el mouse sobre la tarjeta -->
-                         <img th:src="${casa.imagen}" alt="Imagen de la casa" class="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105">
+                        <!-- La imagen se agranda al pasar el mouse sobre la tarjeta -->
+                        <img th:src="${casa.imagen}" alt="Imagen de la casa"
+                            class="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105">
 
 
-                         <!-- Nombre de la casa sobre la imagen -->
-                         <div class="absolute bottom-0 left-0 p-4 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <!-- Nombre de la casa sobre la imagen -->
+                        <div
+                            class="absolute bottom-0 left-0 p-4 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                             <h3 class="text-xl font-bold text-white" th:text="${casa.nombre}">Nombre de la Casa</h3>
                             <p class="text-gray-200 text-sm" th:text="${casa.direccion}">Dirección de la casa</p>
-                         </div>
-                         
-                         <!-- Distintivo de "Destacado" para la primera casa -->
-                         <div th:if="${iterStat.index == 0}" class="absolute top-0 left-0 bg-importante text-white text-xs font-bold px-3 py-1 m-4 rounded-full">
+                        </div>
+
+                        <!-- Distintivo de "Destacado" para la primera casa -->
+                        <div th:if="${iterStat.index == 0}"
+                            class="absolute top-0 left-0 bg-importante text-white text-xs font-bold px-3 py-1 m-4 rounded-full">
                             Destacado
-                         </div>
+                        </div>
                     </div>
-                    
+
                     <!-- Contenido de la tarjeta -->
                     <div class="p-6 flex flex-col flex-grow">
 
                         <!-- Precio -->
                         <p class="text-lg font-semibold text-text-main mb-4">
-                           S/. <span th:text="${#numbers.formatDecimal(casa.precio, 1, 'COMMA', 0, 'POINT')}">150</span>
+                            S/. <span
+                                th:text="${#numbers.formatDecimal(casa.precio, 1, 'COMMA', 0, 'POINT')}">150</span>
                             <span class="text-sm font-normal text-gray-500">/ noche</span>
                         </p>
-                        
+
                         <div class="flex-grow"></div>
 
                         <!-- Botones de Acción -->
                         <div class="flex items-center space-x-3 mt-4">
-                            <a th:href="@{/casas/{id}(id=${casa.id_casa})}" class="flex-1 text-center bg-gray-100 text-gray-800 font-semibold py-3 px-4 rounded-lg hover:bg-gray-200 transition-colors duration-300">
+                            <a th:href="@{/casas/{id}(id=${casa.id_casa})}"
+                                class="flex-1 text-center bg-gray-100 text-gray-800 font-semibold py-3 px-4 rounded-lg hover:bg-gray-200 transition-colors duration-300">
                                 Ver detalles
                             </a>
-                            <a th:href="@{/casas/reserva/nueva/{id}(id=${casa.id_casa})}" class="flex-1 text-center bg-importante text-white font-bold py-3 px-4 rounded-lg hover:brightness-90 transition-all">
+                            <a th:href="@{/casas/reserva/nueva/{id}(id=${casa.id_casa})}"
+                                class="flex-1 text-center bg-importante text-white font-bold py-3 px-4 rounded-lg hover:brightness-90 transition-all">
                                 Reservar
                             </a>
                         </div>
@@ -86,4 +102,5 @@
     </div>
 
 </body>
+
 </html>

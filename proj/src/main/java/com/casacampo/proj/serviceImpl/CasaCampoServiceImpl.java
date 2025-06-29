@@ -59,9 +59,4 @@ public class CasaCampoServiceImpl implements CasaCampoService{
         return casaCampoRepository.findByDisponibleTrue();
     }
 
-    // @Override
-    // public List<CasaCampo> findyByDisponibleTrue(){
-    //     return casaCampoRepository.findByDisponibleTrue();
-    // }
-
 }

@@ -37,12 +37,12 @@ public class UserController {
         model.addAttribute("user", new User());
         return "registerForm";
     }
-    
+
     @PostMapping("/registro")
     public String procesarForm(@ModelAttribute User user) {
         
         user.setRol("CLIENTE");
-        userService.save(user); // Asegúrate de tener un servicio configurado
+        userService.save(user); 
 
         return "redirect:/usuario/login";
         

@@ -31,7 +31,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @RequestMapping("/admin")
 public class CasaCampoAdminController {
 
-     private final CasaCampoService casaCampoService;
+    private final CasaCampoService casaCampoService;
 
     private final ReservaService reservaService;
 
@@ -157,7 +157,7 @@ public class CasaCampoAdminController {
     // Filas
     for (Reserva r : reservas) {
         table.addCell(r.getId_reserva().toString());
-        table.addCell(r.getUser().toString()); // ESTO TAL VEZ ESTE MAL
+        table.addCell(r.getUser().getNombre());
         table.addCell(r.getTelefono());
         table.addCell(r.getFechaReserva().toString());
         table.addCell(r.getCasaCampo().getNombre());
